@@ -1,7 +1,8 @@
 """
 Implement Diffie-Hellman Key Exchange
 """
-import random
+from fast_power import fast_power
+import secrets
 
 def generate_keys(g, p):
     """
@@ -17,8 +18,8 @@ def generate_keys(g, p):
             - int: The secret exponent.
             - int: The public key to exchange.
     """
-    private_key = random.randint(2, p-2)
-    public_key = pow(g, private_key, p)
+    private_key = secrets.randbelow(p-1) + 2
+    public_key = fast_power(g, private_key, p)
     return private_key, public_key
 
 def compute_secret(shared_public_key, private_key, p):
@@ -36,7 +37,7 @@ def compute_secret(shared_public_key, private_key, p):
         int: The secret value.
 
     """
-    return pow(shared_public_key, private_key, p)
+    return fast_power(shared_public_key, private_key, p)
 
 # # hard coded values for testing
 # # comment out input() lines below to use
